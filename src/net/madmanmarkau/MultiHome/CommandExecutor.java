@@ -231,6 +231,14 @@ public class CommandExecutor {
 			int numHomes = plugin.homes.getUserHomeCount(player);
 			int maxHomes = Settings.getSettingMaxHomes(player);
 			double amount = 0;
+                        
+                        if(plugin.homes.getHome(player.getName(), home) != null) {
+                            //home already exists, lets update free of charge.
+                            plugin.homes.addHome(player, home, player.getLocation());
+                            Settings.sendMessageHomeSet(player, home);
+                            Messaging.logInfo("Player " + player.getName() + " updated home location [" + home + "]", plugin);
+                            return;
+                        }
 
 			if (numHomes < maxHomes || maxHomes == -1 || plugin.homes.getHome(player, home) != null) {
 				//Check for economy first - and make sure the player either has permission for free homes or has enough money
