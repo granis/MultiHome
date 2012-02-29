@@ -10,7 +10,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
 
 public class MultiHome extends JavaPlugin {
 	public HomeManager homes;
@@ -18,9 +17,6 @@ public class MultiHome extends JavaPlugin {
 	public WarmUpManager warmups;
 	public CoolDownManager cooldowns;
 	public CommandExecutor commandExecutor;
-
-	private MultiHomePlayerListener playerListener = new MultiHomePlayerListener(this);
-	private MultiHomeEntityListener entityListener = new MultiHomeEntityListener(this);
 	
 	@Override
 	public void onDisable() {
@@ -104,9 +100,8 @@ public class MultiHome extends JavaPlugin {
 
     private void registerEvents() {
 		PluginManager pm = getServer().getPluginManager();
-		pm.registerEvent(Event.Type.PLAYER_RESPAWN, this.playerListener, Event.Priority.Normal, this);
-		pm.registerEvent(Event.Type.PLAYER_QUIT, this.playerListener, Event.Priority.Normal, this);
-		pm.registerEvent(Event.Type.ENTITY_DAMAGE, this.entityListener, Event.Priority.Monitor, this);
+                getServer().getPluginManager().registerEvents(new MultiHomePlayerListener(this), this);
+                getServer().getPluginManager().registerEvents(new MultiHomeEntityListener(this), this);
 	}
     
 	@Override
